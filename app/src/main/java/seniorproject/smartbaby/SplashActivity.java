@@ -1,3 +1,5 @@
+//Adapted from Ravi Tamada's Android Splash Screen Example http://www.androidhive.info/2013/07/how-to-implement-android-splash-screen-2/
+
 package seniorproject.smartbaby;
 
 import android.app.Activity;
@@ -8,7 +10,7 @@ import android.os.Handler;
 
 public class SplashActivity extends Activity {
 
-    private final int SPLASH_LENGTH = 800;
+    private final int SPLASH_LENGTH = 700; //length that the splash is on the screen
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -17,7 +19,7 @@ public class SplashActivity extends Activity {
 
         new Handler().postDelayed(new Runnable() {
             @Override
-            public void run() {
+            public void run() { //after delay go to main page
                 Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(mainIntent);
                 finish();
