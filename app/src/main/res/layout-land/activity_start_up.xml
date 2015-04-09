@@ -1,0 +1,62 @@
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/editBirthday"
+        android:clickable="true"
+        android:background="@drawable/edittextback"
+        android:hint="Baby's Birthday"
+        android:focusable="false"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:paddingTop="10dp"
+        android:layout_above="@+id/setButton"
+        android:layout_alignStart="@+id/editName"
+        android:layout_marginTop="15dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editName"
+        android:hint="Baby's Name"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:paddingTop="10dp"
+        android:background="@drawable/edittextback"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_above="@+id/editBirthday" />
+
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:id="@+id/setButton"
+        style="@style/AppTheme"
+        android:text="Set"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        android:background="@drawable/buttonshape"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/smartbabyname"
+        android:paddingTop="10dp"
+        android:adjustViewBounds="false"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp" />
+
+</RelativeLayout>

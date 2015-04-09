@@ -1,0 +1,77 @@
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/editBirthday"
+        android:clickable="true"
+        android:background="@drawable/edittextback"
+        android:layout_below="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_marginTop="40dp"
+        android:focusable="false"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editName"
+        android:background="@drawable/edittextback"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textView"
+        android:layout_below="@+id/editBirthday"
+        android:layout_alignStart="@+id/editBirthday"
+        android:text="Baby's Birthday"
+        android:textColor="#000000"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textView2"
+        android:text="Baby's First Name"
+        android:layout_below="@+id/editName"
+        android:layout_alignStart="@+id/editName"
+        android:textColor="#ff000000"
+        android:textStyle="bold" />
+
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:id="@+id/setButton"
+        style="@style/AppTheme"
+        android:text="Set"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        android:background="@drawable/buttonshape"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/smartbabyname"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="63dp"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

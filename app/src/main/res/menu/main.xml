@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity" >
+
+    <item android:id="@+id/action_dial"
+        android:icon="@drawable/ic_action_call"
+        android:title="@string/action_dial"
+        android:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_camera"
+        android:icon="@drawable/ic_action_camera"
+        android:title="@string/action_camera"
+        android:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_connect"
+        android:icon="@drawable/ic_action_bluetooth"
+        android:title="@string/action_connect"
+        android:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_settings"
+        android:title="Settings"
+        android:showAsAction="never"/>
+    <item android:id="@+id/action_about"
+        android:title="About"
+        android:showAsAction="never"/>
+    <item android:id="@+id/action_set"
+        android:title="Set"
+        android:showAsAction="never"/> //needs to be deleted once finished testing
+
+</menu>
