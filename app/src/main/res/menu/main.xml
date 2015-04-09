@@ -5,7 +5,11 @@
     <item android:id="@+id/action_dial"
         android:icon="@drawable/ic_action_call"
         android:title="@string/action_dial"
-        android:showAsAction="ifRoom"/>
+        android:showAsAction="always"/>
+    <item android:id="@+id/action_refresh"
+        android:icon="@drawable/ic_action_refresh"
+        android:title="Refresh"
+        android:showAsAction="always"/>
     <item android:id="@+id/action_camera"
         android:icon="@drawable/ic_action_camera"
         android:title="@string/action_camera"
@@ -22,6 +26,5 @@
         android:showAsAction="never"/>
     <item android:id="@+id/action_set"
         android:title="Set"
-        android:showAsAction="never"/> //needs to be deleted once finished testing
-
+        android:showAsAction="never"/>
 </menu>

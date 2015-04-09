@@ -94,12 +94,12 @@ public class MainActivity extends Activity{
 
         clearDisplays();
 
-        isEnabled();
+        /*isEnabled();
         try{
             find();
             open();
         }
-        catch (IOException ex) { }
+        catch (IOException ex) { }*/
 
     }
     //date stuff//
@@ -117,14 +117,6 @@ public class MainActivity extends Activity{
             Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBluetooth, 0);
         }
-
-        isEnabled();
-        try{
-            find();
-            open();
-        }
-        catch (IOException ex) { }
-
 
         pullData();
         name.setText(fName);
@@ -150,13 +142,20 @@ public class MainActivity extends Activity{
             try{
                 find();
                 open();
-            }
-            catch (IOException ex) { }
+            } catch (IOException ex) { }
             return true;
         }
         if (id == R.id.action_dial){ //opens phone
             Intent intent = new Intent(Intent.ACTION_DIAL);
             startActivity(intent);
+        }
+        if (id==R.id.action_refresh){ //refreshes connection to get up-to-date data
+            isEnabled();
+            try{
+                find();
+                open();
+            } catch (IOException ex) { }
+            return true;
         }
         if(id==R.id.action_camera){ //opens camera
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
