@@ -145,7 +145,7 @@ public class MainActivity extends Activity{
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_connect) {
+        if (id == R.id.action_connect) { //connects to baby/arduino
             isEnabled();
             try{
                 find();
@@ -154,21 +154,19 @@ public class MainActivity extends Activity{
             catch (IOException ex) { }
             return true;
         }
-        if (id == R.id.action_dial){
+        if (id == R.id.action_dial){ //opens phone
             Intent intent = new Intent(Intent.ACTION_DIAL);
             startActivity(intent);
         }
-        if(id==R.id.action_camera){
+        if(id==R.id.action_camera){ //opens camera
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivity(intent);
         }
-        if(id==R.id.action_settings){
+        if(id==R.id.action_settings){ //allows name and b-day edit
             Intent startUp = new Intent(this, StartUp.class);
             startActivity(startUp);
-            //birthday.setText("--/--/----");
-            //runDate();
         }
-        if(id==R.id.action_about){
+        if(id==R.id.action_about){  //info about the awesome people that made this awesome app
             Toast aToast = Toast.makeText(getApplicationContext(), "Martin Hutchens & Matthew Timmons\nCharleston Southern University 2015", Toast.LENGTH_SHORT);
             LinearLayout layout = (LinearLayout) aToast.getView();
             if(layout.getChildCount()>0){
@@ -177,16 +175,17 @@ public class MainActivity extends Activity{
             }
             aToast.show();
         }
-        if(id==R.id.action_set){//delete for final build, *.xml
+        if(id==R.id.action_set){//used to demonstrate notifications, delete for final build, *.xml
             pullData();
             setDates();
-            //birthday.setText("" + age);//move later or delete
             birthday.setText(bMonth+"/"+bDay+"/"+bYear);
             checkVitals("101","60");
         }
         return super.onOptionsItemSelected(item);
     }
 
+
+    //Adapted from Android Bluetooth example at "developer.android.com/guide/topics/connectivity/bluetooth.html"
     void isEnabled(){
         if(!blueAdapt.isEnabled()) {
             Intent enableBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -274,79 +273,7 @@ public class MainActivity extends Activity{
 
         workerThread.start();
     }
-
-    private void close() throws IOException{
-        stopWorker=true;
-        streamOutput.close();
-        streamInput.close();
-        mSocket.close();
-    }
-
-    private void checkVitals(String tmp, String bpm){
-        Double t= Double.parseDouble(tmp);
-        Double b= Double.parseDouble(bpm);
-        if(b>200||b<40)
-            return;
-        if(age<0.7) {//baby 3-6m
-            if(t>100.0||b<80.0||b>200.0){
-                notifyMethod();
-            }
-        }
-        else if(age>=0.7 && age<=2) {//baby 7m-2y
-            if(t>100.0||b<70.0||b>120.0){
-                notifyMethod();
-            }
-        }
-        else {//baby 2y-4y
-            if(t>100.0||b<60.0||b>90.0){
-                notifyMethod();
-            }
-        }
-    }
-
-    /*private void notifyMethod(){
-        Intent mIntent = new Intent(this, Notify.class);
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        pendingIntent = PendingIntent.getService(this,0,mIntent,0);
-
-/////////////        alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP,,pendingIntent);//change 20 -> 0
-        Toast.makeText(MainActivity.this,"screw this alarm",Toast.LENGTH_LONG).show();
-    }*/
-
-    public void notifyMethod(){//creates notification
-        //Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);//find custom sound and enable alert on silent
-        Uri beeps = Uri.parse("android.resource://seniorproject.smartbaby/raw/ekg");//sound works, make lower volume version of ekg.mp3
-        Intent intent = new Intent(this,MainActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Notification notify = new Notification.Builder(this)
-                .setContentTitle("Baby Alarm")
-                .setContentText("Check on your baby!")
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentIntent(pIntent)
-                .setVibrate(new long[]{1000, 100, 100, 100, 1000, 100, 100, 100, 1000, 100, 100, 100, 100})
-                .setPriority(2)
-                .setLights(Color.RED,1000,10)
-                //.setSound(sound)
-                .setSound(beeps)
-                .build();
-        NotificationManager nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notify.flags|= Notification.FLAG_AUTO_CANCEL;
-        nManager.notify(0,notify);
-    }
-
-    private void clearDisplays(){ //clears displays
-        heartRate.setText("---");
-        temp.setText("---");
-    }
-
-    private void pullData(){
-        SharedPreferences settings = getSharedPreferences(PREFS_SB, 0);
-        bMonth=settings.getString("bMonth","0");
-        bDay=settings.getString("bDay","0");
-        bYear=settings.getString("bYear","0");
-        fName= settings.getString("fName","");
-    }
+    //end Android Bluetooth adaptation.
 
     private void setDates(){ //gets the current date and sets the age of the baby
         int cY,bY,cM,bM,monthDif,yearDif; //current Year,birth year,curr Month,birth month
@@ -354,22 +281,83 @@ public class MainActivity extends Activity{
         cY=calendar.get(Calendar.YEAR);
         cM=calendar.get(Calendar.MONTH);
         bM=Integer.parseInt(bMonth);
-        monthDif=(cM+1)-bM;
-        yearDif=cY-bY;
+        monthDif=(cM+1)-bM; //difference between the current month and month baby was born
+        yearDif=cY-bY; //difference between current year and baby's birth year
 
-        if(yearDif == 0) {
-            if(monthDif<=6)
-                age = monthDif/10;
-            else age = 1;
+        if(yearDif == 0) { //if baby was born in the current year
+            if(monthDif<=6) //check if the baby is less than 6months old
+                age = monthDif/10; //turns age-in-months into decimal and sets to age
+            else age = 1; //if older then 6months set age to 1year
         }
-        else if(yearDif==1 && monthDif<0){
-            if(monthDif+12<=6)
-                age = (monthDif+12)*.1;
-            else age = 1;
+        else if(yearDif==1 && monthDif<0){ //if baby was born last year but isnt a year old
+            if(monthDif+12<=6) //+12 to month difference, check if the baby is less than 6months old
+                age = (monthDif+12)*.1; //turns age-in-months into decimal and sets to age
+            else age = 1; //if older then 6months set age to 1year
         }
-        else age = yearDif;
+        else age = yearDif; //anything else use the year difference for the baby's age
     }
 
+    private void checkVitals(String tmp, String bpm){ //checks baby's heart rate against the high
+                                                      //and low values for the child's age
+        Double t= Double.parseDouble(tmp);
+        Double b= Double.parseDouble(bpm);
+        if(b>200||b<40)
+            return;
+        if(age<0.7) {//baby 0-6m
+            if(t>100.0||b<80.0||b>200.0){ //if temp > 100, or BPM are not between 80 and 200 send notification
+                notifyMethod();
+            }
+        }
+        else if(age>=0.7 && age<=2) {//baby 7m-2y
+            if(t>100.0||b<70.0||b>120.0){ //if temp > 100, or BPM are not between 70 and 120 send notification
+                notifyMethod();
+            }
+        }
+        else {//baby 2y+
+            if(t>100.0||b<60.0||b>90.0){ //if temp > 100, or BPM are not between 60 and 90 send notification
+                notifyMethod();
+            }
+        }
+    }
+
+
+
+    private void clearDisplays(){ //clears displays
+        heartRate.setText("---");
+        temp.setText("---");
+    }
+
+    private void pullData(){ //retrieve name and birthday from device memory
+        SharedPreferences settings = getSharedPreferences(PREFS_SB, 0);
+        bMonth=settings.getString("bMonth","0"); //month of birth
+        bDay=settings.getString("bDay","0"); //birth day-of-month
+        bYear=settings.getString("bYear","0"); //year of birth
+        fName= settings.getString("fName",""); //baby's name
+    }
+
+    public void notifyMethod(){//creates notification
+        //Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION); //default system alarm sound
+        Uri beeps = Uri.parse("android.resource://seniorproject.smartbaby/raw/ekg"); //custom sound for notification
+        Intent intent = new Intent(this,MainActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification notify = new Notification.Builder(this) //check baby notification
+                .setContentTitle("Baby Alarm")
+                .setContentText("Check on your baby!")
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentIntent(pIntent) //event on click
+                .setVibrate(new long[]{1000, 100, 100, 100, 1000, 100, 100, 100, 1000, 100, 100, 100, 100})
+                .setPriority(2) //max priority requiring user input/attention
+                .setLights(Color.RED,1000,10)
+                        //.setSound(sound) //default sound
+                .setSound(beeps) //custom sound
+                .build();
+        NotificationManager nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notify.flags|= Notification.FLAG_AUTO_CANCEL;
+        nManager.notify(0,notify);
+    }
+
+    /* //custom date picker to select baby's birthday\\
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
         MainActivity mActivity;
         public DatePickerFragment(MainActivity activity){
@@ -392,5 +380,5 @@ public class MainActivity extends Activity{
             editor.putString("bYear",Integer.toString(year));
             editor.apply();
         }
-    }
+    }*/
 }
